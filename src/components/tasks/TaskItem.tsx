@@ -5,9 +5,10 @@ import { DraggableProvided } from "react-beautiful-dnd";
 type Props = {
   item: ITaskItem;
   provided: DraggableProvided;
+  onClick: () => void;
 };
 
-const TaskItem = ({ item, provided }: Props) => {
+const TaskItem = ({ item, provided, onClick }: Props) => {
   return (
     <div
       {...provided.dragHandleProps}
@@ -20,6 +21,7 @@ const TaskItem = ({ item, provided }: Props) => {
         p={[2, 2, 1, 3]}
         border={0.5}
         borderColor="lightgrey"
+        onClick={onClick}
       >
         <Typography variant="body2">{item.title}</Typography>
       </Box>

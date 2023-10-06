@@ -1,5 +1,5 @@
 import { LocalStorageKey, defaultTaskLists } from "_core/constants";
-import { TaskBoard } from "components";
+import { ModalContextProvider, TaskBoard } from "components";
 import { useMemo } from "react";
 
 const HomePage = () => {
@@ -8,7 +8,9 @@ const HomePage = () => {
     return storageTaskLists ? JSON.parse(storageTaskLists) : defaultTaskLists;
   }, []);
 
-  return <TaskBoard initialLists={initialLists} />;
+  return<ModalContextProvider>
+    <TaskBoard initialLists={initialLists} />
+  </ModalContextProvider>;
 };
 
 export default HomePage;

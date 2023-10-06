@@ -1,7 +1,8 @@
-import { ITaskList } from "_core";
+import { ITaskList, IUpdateTaskItem } from "_core";
 import TaskItem from "./TaskItem";
 import { Draggable, DroppableProvided } from "react-beautiful-dnd";
 import { Box, Stack, Typography } from "@mui/material";
+import { useModalContext } from "components/Modal";
 
 type Props = {
   taskList: ITaskList;
@@ -9,6 +10,8 @@ type Props = {
 };
 
 const TaskList = ({ taskList, provided }: Props) => {
+  const { onOpen } = useModalContext<IUpdateTaskItem>();
+
   return (
     <div {...provided.droppableProps} ref={provided.innerRef}>
       <Box bgcolor="#ebecf0" borderRadius={2} py={2} width="290px">
@@ -20,7 +23,12 @@ const TaskList = ({ taskList, provided }: Props) => {
           {taskList.items?.map((item, index) => (
             <Draggable draggableId={item.id} index={index} key={item.id}>
               {(dragProvided) => (
-                <TaskItem key={item.id} item={item} provided={dragProvided} />
+                <TaskItem
+                  key={item.id}
+                  item={item}
+                  provided={dragProvided}
+                  onClick={() => onOpen({ listId: taskList.id, item })}
+                />
               )}
             </Draggable>
           ))}

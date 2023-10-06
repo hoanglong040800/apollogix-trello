@@ -9,3 +9,8 @@ export interface ITaskList {
   title: string;
   items: ITaskItem[];
 }
+
+export interface IUpdateTaskItem {
+  listId: string,
+  item: ITaskItem
+}
