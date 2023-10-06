@@ -6,6 +6,7 @@ type ModalContextValue<T> = {
   onOpen: (data?: T) => void;
   onClose: () => void;
   data: T;
+  updateModalData: (data?: T) => void;
 };
 
 // Create a generic context
@@ -14,6 +15,7 @@ const ModalContext = createContext<ModalContextValue<any>>({
   onOpen: () => {},
   onClose: () => {},
   data: null,
+  updateModalData: () => null,
 });
 
 export function ModalContextProvider<T>({ children }: { children: ReactNode }) {
@@ -29,6 +31,10 @@ export function ModalContextProvider<T>({ children }: { children: ReactNode }) {
     setOpen(false);
   };
 
+  const updateModalData = (data?: T) => {
+    setModalData(data || null);
+  };
+
   return (
     <ModalContext.Provider
       value={{
@@ -36,6 +42,7 @@ export function ModalContextProvider<T>({ children }: { children: ReactNode }) {
         onOpen,
         onClose,
         data: modalData,
+        updateModalData,
       }}
     >
       {children}

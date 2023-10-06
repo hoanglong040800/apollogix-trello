@@ -11,7 +11,7 @@ type Props = {
 };
 
 const TaskBoard = ({ initialLists }: Props) => {
-  const { lists, handleDragEnd } = useTaskBoard({ initialLists });
+  const { lists, handleDragEnd,handleUpdateItem } = useTaskBoard({ initialLists });
   const { open, onClose, data } = useModalContext<IUpdateTaskItem>();
 
   return (
@@ -25,8 +25,8 @@ const TaskBoard = ({ initialLists }: Props) => {
           ))}
         </div>
 
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth='md'>
-          <TaskItemModalContent {...data} />
+        <Dialog open={open} onClose={onClose} fullWidth maxWidth='sm'>
+          <TaskItemModalContent {...data} onBlurUpdate={handleUpdateItem} />
         </Dialog>
       </DragDropContext>
     </>

@@ -1,9 +1,10 @@
 import { LocalStorageKey } from "_core/constants";
-import { ITaskList } from "_core";
+import { ITaskItem, ITaskList, IUpdateTaskItem } from "_core";
 import { checkDropPositionKeep, swapArrayValues } from "_core/utils";
 import { Dictionary } from "lodash";
 import { useState } from "react";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
+import { useModalContext } from "components/Modal";
 
 type Props = {
   initialLists: Dictionary<ITaskList>;
@@ -11,6 +12,7 @@ type Props = {
 
 export const useTaskBoard = ({ initialLists }: Props) => {
   const [lists, setLists] = useState<Dictionary<ITaskList>>(initialLists);
+  const { updateModalData } = useModalContext<IUpdateTaskItem>();
 
   const rearrangeSameList = (
     originLists: Dictionary<ITaskList>,
@@ -75,8 +77,30 @@ export const useTaskBoard = ({ initialLists }: Props) => {
     );
   };
 
+  const handleUpdateItem = (listId: string, updateItem: ITaskItem) => {
+    const updatedLists = lists;
+
+    const updatedItemIndex = updatedLists[listId].items.findIndex(
+      (i) => i.id === updateItem.id
+    );
+
+    if (updatedItemIndex === -1) {
+      return;
+    }
+
+    updatedLists[listId].items[updatedItemIndex] = updateItem;
+
+    setLists(updatedLists);
+    updateModalData({ listId, item: updateItem });
+    localStorage.setItem(
+      LocalStorageKey.taskLists,
+      JSON.stringify(updatedLists)
+    );
+  };
+
   return {
     lists,
     handleDragEnd,
+    handleUpdateItem,
   };
 };
