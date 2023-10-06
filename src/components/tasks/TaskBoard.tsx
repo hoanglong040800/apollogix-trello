@@ -1,32 +1,43 @@
-import { ITaskList, IUpdateTaskItem } from "_core";
-import { TaskItemModalContent, TaskList, useModalContext } from "components";
+import { ITaskList } from "_core";
+import { TaskItemModalContent, TaskList } from "components";
 import { Dictionary } from "lodash";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { useTaskBoard } from "./hooks";
-import { Dialog, Modal } from "@mui/material";
-import { useState } from "react";
+import { useTaskBoard, useTaskItemModal } from "./hooks";
+import { Dialog, Stack } from "@mui/material";
 
 type Props = {
   initialLists: Dictionary<ITaskList>;
 };
 
 const TaskBoard = ({ initialLists }: Props) => {
-  const { lists, handleDragEnd,handleUpdateItem } = useTaskBoard({ initialLists });
-  const { open, onClose, data } = useModalContext<IUpdateTaskItem>();
+  const { lists, handleDragEnd, setNewLists } = useTaskBoard({
+    initialLists,
+  });
+
+  const { open, onClose, updateTaskItem, handleUpdateItem } = useTaskItemModal({
+    lists,
+    setNewLists,
+  });
+
+  const renderTaskLists = () =>
+    Object.values(lists)?.map((list) => (
+      <Droppable droppableId={list.id} key={list.id}>
+        {(provided) => <TaskList taskList={list} provided={provided} />}
+      </Droppable>
+    ));
 
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div style={{ display: "flex", gap: 10 }}>
-          {Object.values(lists)?.map((list) => (
-            <Droppable droppableId={list.id} key={list.id}>
-              {(provided) => <TaskList taskList={list} provided={provided} />}
-            </Droppable>
-          ))}
-        </div>
+        <Stack direction="row" spacing={2}>
+          {renderTaskLists()}
+        </Stack>
 
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth='sm'>
-          <TaskItemModalContent {...data} onBlurUpdate={handleUpdateItem} />
+        <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+          <TaskItemModalContent
+            {...updateTaskItem}
+            onBlurUpdate={handleUpdateItem}
+          />
         </Dialog>
       </DragDropContext>
     </>
