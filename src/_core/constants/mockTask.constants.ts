@@ -6,19 +6,21 @@ export const defaultTaskLists: Dictionary<ITaskList> = {
     id: "listA",
     title: "To do",
     items: [
-      { id: "1", title: "Item 1" },
-      { id: "2", title: "Item 2" },
-      { id: "3", title: "Item 3" },
+      { id: "1", title: "Code", description: "" },
+      { id: "2", title: "Go to library", description: "" },
+      { id: "3", title: "Meeting with clients", description: "" },
     ],
   },
 
   listB: {
     id: "listB",
     title: "In progress",
-    items: [
-      { id: "4", title: "Item 4" },
-      { id: "5", title: "Item 5" },
-      { id: "6", title: "Item 6" },
-    ],
+    items: [{ id: "4", title: "Write docs", description: "description" }],
+  },
+
+  listC: {
+    id: "listC",
+    title: "Done",
+    items: [{ id: "5", title: "Interview", description: "description" }],
   },
 };

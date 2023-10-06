@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import { ITaskItem } from "_core";
 import { DraggableProvided } from "react-beautiful-dnd";
 
@@ -13,16 +14,15 @@ const TaskItem = ({ item, provided }: Props) => {
       {...provided.draggableProps}
       ref={provided.innerRef}
     >
-      <div
-        style={{
-          width: 100,
-          height: 30,
-          marginBottom: 10,
-          background: "white",
-        }}
+      <Box
+        bgcolor="white"
+        borderRadius={2}
+        p={[2, 2, 1, 3]}
+        border={0.5}
+        borderColor="lightgrey"
       >
-        {item.title}
-      </div>
+        <Typography variant="body2">{item.title}</Typography>
+      </Box>
     </div>
   );
 };
