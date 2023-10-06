@@ -12,7 +12,7 @@ const TaskList = ({ taskList, provided }: Props) => {
     <div
       {...provided.droppableProps}
       ref={provided.innerRef}
-      style={{ background: "grey", width: 150 }}
+      style={{ background: "grey", width: 150, height: 500 }}
     >
       <h3>{taskList.title}</h3>
 
