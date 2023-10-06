@@ -16,13 +16,17 @@ const TaskList = ({ taskList, provided }: Props) => {
     >
       <h3>{taskList.title}</h3>
 
-      {taskList.items?.map((item, index) => (
-        <Draggable draggableId={item.id} index={index} key={item.id}>
-          {(dragProvided) => (
-            <TaskItem key={item.id} item={item} provided={dragProvided} />
-          )}
-        </Draggable>
-      ))}
+      <div
+        style={{ display: "flex", flexDirection: "column", alignContent: 'center'}}
+      >
+        {taskList.items?.map((item, index) => (
+          <Draggable draggableId={item.id} index={index} key={item.id}>
+            {(dragProvided) => (
+              <TaskItem key={item.id} item={item} provided={dragProvided} />
+            )}
+          </Draggable>
+        ))}
+      </div>
     </div>
   );
 };
